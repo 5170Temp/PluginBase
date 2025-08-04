@@ -12,7 +12,7 @@ public class SoundSerializer implements Serializer<Sound, String> {
     }
 
     @Override
-    public Sound deserialize(final String s) {
-        return Registry.SOUNDS.get(NamespacedKey.fromString(s));
+    public Sound deserialize(final String sound) {
+        return Registry.SOUNDS.get(NamespacedKey.fromString(sound));
     }
 }

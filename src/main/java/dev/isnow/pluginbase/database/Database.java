@@ -4,9 +4,9 @@ import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.config.impl.GeneralConfig;
 import dev.isnow.pluginbase.config.impl.database.DatabaseConfig;
 import dev.isnow.pluginbase.config.impl.database.DatabaseTypeConfig;
+import dev.isnow.pluginbase.util.BaseLogger;
 import dev.isnow.pluginbase.util.ExpiringSession;
 import dev.isnow.pluginbase.util.ReflectionUtil;
-import dev.isnow.pluginbase.util.BaseLogger;
 import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,9 +26,11 @@ import java.util.function.BiConsumer;
 
 @Data
 public class Database {
+    private final PluginBase plugin;
     private final SessionFactory sessionFactory;
 
-    public Database(final GeneralConfig mainConfig, final DatabaseConfig authConfig, final Collection<Class<?>> moduleEntities) {
+    public Database(final PluginBase plugin, final GeneralConfig mainConfig, final DatabaseConfig authConfig, final Collection<Class<?>> moduleEntities) {
+        this.plugin = plugin;
         this.sessionFactory = initializeSessionFactory(mainConfig, authConfig, moduleEntities);
     }
 
@@ -72,11 +74,10 @@ public class Database {
         BaseLogger.debug("Registering " + moduleEntities.size() + " database entities from modules...");
         for (Class<?> entityClass : moduleEntities) {
             configuration.addAnnotatedClass(entityClass);
-            BaseLogger.debug("  - Registered " + entityClass.getName());
+            BaseLogger.debug("Registered " + entityClass.getName());
         }
 
-        final ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(configuration.getProperties()).build();
+        final ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties()).build();
 
         Thread.currentThread().setContextClassLoader(PluginBase.class.getClassLoader());
         return configuration.buildSessionFactory(serviceRegistry);
@@ -84,6 +85,7 @@ public class Database {
 
     private void enableHibernateDebug(Configuration configuration) {
         BaseLogger.debug("Enabling Hibernate debug mode.");
+
         configuration.setProperty("hibernate.show_sql", "true");
         configuration.setProperty("hibernate.format_sql", "true");
         configuration.setProperty("hibernate.use_sql_comments", "true");
@@ -93,7 +95,7 @@ public class Database {
     private String getUrl(final DatabaseConfig authConfig) {
         return switch (authConfig.getDatabaseType()) {
             case MYSQL, MARIADB -> authConfig.getDatabaseType().getPrefix() + authConfig.getHost() + "/" + authConfig.getDatabase();
-            case H2 -> authConfig.getDatabaseType().getPrefix() + new File(PluginBase.getInstance().getDataFolder(), authConfig.getDatabase()).getAbsolutePath();
+            case H2 -> authConfig.getDatabaseType().getPrefix() + new File(plugin.getDataFolder(), authConfig.getDatabase()).getAbsolutePath();
         };
     }
 
@@ -113,15 +115,14 @@ public class Database {
         };
     }
 
-    public void executeTransaction(final BiConsumer<Session, Transaction> action,
-            final ExpiringSession expiringSession) {
+    public void executeTransaction(final BiConsumer<Session, Transaction> action, final ExpiringSession expiringSession) {
         if (expiringSession.isOpen()) {
             Transaction tx = null;
             try {
                 tx = expiringSession.getSession().beginTransaction();
                 action.accept(expiringSession.getSession(), tx);
                 tx.commit();
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 if (tx != null) tx.rollback();
                 BaseLogger.error("Transaction failed: " + e.getMessage());
             } finally {
@@ -153,15 +154,16 @@ public class Database {
     public <T> void fetchEntityAsync(final String hql, final Map<String, Object> params, final Class<T> clazz, final BiConsumer<ExpiringSession, T> callback) {
         CompletableFuture.runAsync(() -> {
             try (ExpiringSession session = openSession()) {
-                Query<T> query = session.getSession().createQuery(hql, clazz);
+                final Query<T> query = session.getSession().createQuery(hql, clazz);
                 params.forEach(query::setParameter);
+
                 T entity = query.setCacheable(true).uniqueResult();
                 callback.accept(session, entity);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 BaseLogger.error("Failed to fetch entity: " + e.getMessage());
                 callback.accept(null, null);
             }
-        }, PluginBase.getInstance().getThreadPool());
+        }, plugin.getThreadPool());
     }
 
     public <T> void fetchEntityAsync(final String hql, final String paramName, final Object paramValue, final Class<T> clazz, final BiConsumer<ExpiringSession, T> callback) {
@@ -171,15 +173,14 @@ public class Database {
     public <T> void fetchAllAsync(final String hql, final Class<T> clazz, final BiConsumer<ExpiringSession, List<T>> callback) {
         CompletableFuture.runAsync(() -> {
             try (ExpiringSession session = openSession()) {
-                List<T> entities = session.getSession().createQuery(hql, clazz)
-                        .setCacheable(true)
-                        .list();
+                final List<T> entities = session.getSession().createQuery(hql, clazz).setCacheable(true).list();
+
                 callback.accept(session, entities);
             } catch (Exception e) {
                 BaseLogger.error("Failed to fetch entities: " + e.getMessage());
                 callback.accept(null, null);
             }
-        }, PluginBase.getInstance().getThreadPool());
+        }, plugin.getThreadPool());
     }
 
 }

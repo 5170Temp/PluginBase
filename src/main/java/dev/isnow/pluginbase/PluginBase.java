@@ -1,23 +1,21 @@
 package dev.isnow.pluginbase;
 
-import com.github.retrooper.packetevents.PacketEvents;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import dev.isnow.pluginbase.command.CommandManager;
 import dev.isnow.pluginbase.config.ConfigManager;
+import dev.isnow.pluginbase.data.PlayerData;
 import dev.isnow.pluginbase.database.DatabaseManager;
 import dev.isnow.pluginbase.event.LoginEvent;
 import dev.isnow.pluginbase.event.QuitEvent;
 import dev.isnow.pluginbase.hook.HookManager;
 import dev.isnow.pluginbase.module.ModuleManager;
-import dev.isnow.pluginbase.util.DataUtil;
-import dev.isnow.pluginbase.util.DateUtil;
 import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.DateUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.checkerframework.checker.units.qual.C;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -63,7 +61,7 @@ public final class PluginBase extends JavaPlugin {
         BaseLogger.info("Loading modules");
         moduleManager.loadAndEnableModules(getClass().getPackage().getName() + ".module.impl");
 
-        Bukkit.getPluginManager().registerEvents(new LoginEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new LoginEvent(this), this);
         Bukkit.getPluginManager().registerEvents(new QuitEvent(), this);
 
         final String time = DateUtil.formatElapsedTime(System.currentTimeMillis() - startTime);
@@ -77,7 +75,7 @@ public final class PluginBase extends JavaPlugin {
 
         BaseLogger.info("Saving player data");
         for(final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            DataUtil.saveData(onlinePlayer);
+            PlayerData.findByOfflinePlayerAsync(onlinePlayer, (session, data) -> data.save(session));
         }
 
         BaseLogger.info("Shutting down thread pool");

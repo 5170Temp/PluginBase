@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class RekusLocationSerializer implements Serializer<BaseLocation, Map<String, String>> {
     @Override
-    public Map<String, String> serialize(BaseLocation baseLocation) {
+    public Map<String, String> serialize(final BaseLocation baseLocation) {
         final Map<String, String> map = new HashMap<>();
 
         map.put("world", baseLocation.getWorld());
@@ -26,16 +26,15 @@ public class RekusLocationSerializer implements Serializer<BaseLocation, Map<Str
     }
 
     @Override
-    public BaseLocation deserialize(Map<String, String> stringStringMap) {
+    public BaseLocation deserialize(final Map<String, String> stringMap) {
+        final World world = Bukkit.getWorld(stringMap.get("world"));
 
-        final World world = Bukkit.getWorld(stringStringMap.get("world"));
+        final double x = Double.parseDouble(stringMap.get("x"));
+        final double y = Double.parseDouble(stringMap.get("y"));
+        final double z = Double.parseDouble(stringMap.get("z"));
 
-        final double x = Double.parseDouble(stringStringMap.get("x"));
-        final double y = Double.parseDouble(stringStringMap.get("y"));
-        final double z = Double.parseDouble(stringStringMap.get("z"));
-
-        final float pitch = Float.parseFloat(stringStringMap.get("pitch"));
-        final float yaw = Float.parseFloat(stringStringMap.get("yaw"));
+        final float pitch = Float.parseFloat(stringMap.get("pitch"));
+        final float yaw = Float.parseFloat(stringMap.get("yaw"));
 
         return new BaseLocation(world, x, y, z, pitch, yaw);
     }

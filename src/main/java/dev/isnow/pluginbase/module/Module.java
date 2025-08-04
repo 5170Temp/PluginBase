@@ -1,12 +1,10 @@
 package dev.isnow.pluginbase.module;
 
-import com.github.retrooper.packetevents.protocol.entity.tropicalfish.TropicalFishPattern;
 import dev.isnow.pluginbase.PluginBase;
-import dev.isnow.pluginbase.util.ReflectionUtil;
 import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.ReflectionUtil;
 import dev.velix.imperat.annotations.Command;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;

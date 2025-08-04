@@ -4,9 +4,8 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.google.common.graph.Traverser;
 import dev.isnow.pluginbase.PluginBase;
-import dev.isnow.pluginbase.command.CommandManager;
-import dev.isnow.pluginbase.util.ReflectionUtil;
 import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.ReflectionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

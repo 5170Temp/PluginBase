@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.hibernate.stat.Statistics;
 
+// TODO: USE NEW IMPERAT STUFF
 @Command({"base", "basecmd"})
 @Description("Master Base command")
 @Permission("mcrekus.admin")

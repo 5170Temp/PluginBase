@@ -18,20 +18,22 @@ public class BaseLocation {
     public final double x, y, z;
     public final float pitch, yaw;
 
-    public BaseLocation(World world, double x, double y, double z, float pitch, float yaw) {
+    public BaseLocation(final World world, final double x, final double y, final double z, final float pitch, final float yaw) {
         if(world == null) {
             this.world = "";
         } else {
             this.world = world.getName();
         }
+
         this.x = x;
         this.y = y;
         this.z = z;
+
         this.pitch = pitch;
         this.yaw = yaw;
     }
 
-    public BaseLocation(World world, double x, double y, double z) {
+    public BaseLocation(final World world, final double x, final double y, final double z) {
         this(world, x, y, z, 0, 0);
     }
 
@@ -43,11 +45,11 @@ public class BaseLocation {
         return new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
     }
 
-    public static BaseLocation fromBukkitLocation(Location loc) {
+    public static BaseLocation fromBukkitLocation(final Location loc) {
         return new BaseLocation(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ(), loc.getPitch(), loc.getYaw());
     }
 
-    public static BaseLocation fromBukkitLocationTrimmed(Location loc) {
+    public static BaseLocation fromBukkitLocationTrimmed(final Location loc) {
         return new BaseLocation(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ(), 0, 0);
     }
 }

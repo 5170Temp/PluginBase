@@ -15,16 +15,12 @@ public final class RekusLocationSerializer implements AttributeConverter<BaseLoc
             return "";
         }
 
-        final StringBuilder stringBuilder = new StringBuilder();
-
-        stringBuilder.append(baseLocation.getWorld()).append(";")
-                .append(baseLocation.getX()).append(";")
-                .append(baseLocation.getY()).append(";")
-                .append(baseLocation.getZ()).append(";")
-                .append(baseLocation.getPitch()).append(";")
-                .append(baseLocation.getYaw()).append(";");
-
-        return stringBuilder.toString();
+        return baseLocation.getWorld() + ";" +
+                baseLocation.getX() + ";" +
+                baseLocation.getY() + ";" +
+                baseLocation.getZ() + ";" +
+                baseLocation.getPitch() + ";" +
+                baseLocation.getYaw() + ";";
     }
 
     @Override
@@ -32,16 +28,18 @@ public final class RekusLocationSerializer implements AttributeConverter<BaseLoc
         if(s.isEmpty()) {
             return null;
         }
-
         final String[] split = s.split(";");
+
         final World world = Bukkit.getWorld(split[0]);
+
         final double x = Double.parseDouble(split[1]);
         final double y = Double.parseDouble(split[2]);
         final double z = Double.parseDouble(split[3]);
+
         final float pitch = Float.parseFloat(split[4]);
         final float yaw = Float.parseFloat(split[5]);
 
-        return new BaseLocation(world != null ? world : Bukkit.getWorlds().getFirst(), x, y, z, pitch, yaw);
+        return new BaseLocation(world, x, y, z, pitch, yaw);
     }
 
 

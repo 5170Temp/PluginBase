@@ -37,6 +37,6 @@ public class BaseLogger {
     }
 
     public void watermark() {
-        big("© 5170 ↝ 2024");
+        big("© 5170 ↝ 2025");
     }
 }

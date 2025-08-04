@@ -1,10 +1,9 @@
 package dev.isnow.pluginbase.module.impl.example.menu;
 
-import dev.isnow.pluginbase.PluginBase;
-import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.isnow.pluginbase.data.PlayerData;
 import dev.isnow.pluginbase.module.impl.example.ExampleModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
+import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.isnow.pluginbase.module.impl.example.teleport.TeleportManager;
 import dev.isnow.pluginbase.util.ComponentUtil;
 import dev.isnow.pluginbase.util.ExpiringSession;

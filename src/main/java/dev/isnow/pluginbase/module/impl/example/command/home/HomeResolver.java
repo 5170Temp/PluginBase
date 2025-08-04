@@ -1,6 +1,5 @@
 package dev.isnow.pluginbase.module.impl.example.command.home;
 
-import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.data.PlayerData;
 import dev.velix.imperat.BukkitSource;
 import dev.velix.imperat.command.parameters.CommandParameter;

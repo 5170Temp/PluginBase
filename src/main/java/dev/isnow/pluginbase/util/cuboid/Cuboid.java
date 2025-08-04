@@ -31,11 +31,11 @@ public class Cuboid {
         this.world = point1.getWorld();
     }
 
-    private boolean contains(World world, int x, int y, int z) {
+    private boolean contains(final World world, final int x, final int y, final int z) {
         return world.getName().equals(this.world.getName()) && x >= xMin && x <= xMax && y >= yMin && y <= yMax && z >= zMin && z <= zMax;
     }
 
-    private boolean contains(Location loc) {
+    private boolean contains(final Location loc) {
         return contains(loc.getWorld(), loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
     }
 

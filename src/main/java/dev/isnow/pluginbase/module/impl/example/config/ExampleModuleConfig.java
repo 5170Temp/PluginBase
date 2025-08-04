@@ -3,10 +3,8 @@ package dev.isnow.pluginbase.module.impl.example.config;
 import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
 import dev.isnow.pluginbase.module.ModuleConfig;
-import dev.isnow.pluginbase.util.ComponentUtil;
 import lombok.Getter;
 import lombok.Setter;
-import net.kyori.adventure.text.Component;
 import org.bukkit.Sound;
 
 // TODO: CONVERT ALL NON PLACEHOLDER MESSAGES TO COMPONENT

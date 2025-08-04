@@ -1,11 +1,10 @@
 package dev.isnow.pluginbase.module.impl.example.command.home;
 
-import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.data.PlayerData;
 import dev.isnow.pluginbase.module.ModuleCommand;
-import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.isnow.pluginbase.module.impl.example.ExampleModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
+import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.isnow.pluginbase.module.impl.example.menu.HomeMenu;
 import dev.isnow.pluginbase.module.impl.example.teleport.TeleportManager;
 import dev.isnow.pluginbase.util.ComponentUtil;
@@ -35,7 +34,7 @@ public class HomeCommand extends ModuleCommand<ExampleModule> {
             new BukkitRunnable() {
                 @Override
                 public void run() {
-                    PluginBase.getInstance().getHookManager().getMenuAPI().openMenu(player, new HomeMenu(module, data, session));
+                    module.getPlugin().getHookManager().getMenuAPI().openMenu(player, new HomeMenu(module, data, session));
                 }
             }.runTask(module.getPlugin());
         });

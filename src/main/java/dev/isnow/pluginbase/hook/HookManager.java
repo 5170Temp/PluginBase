@@ -1,8 +1,6 @@
 package dev.isnow.pluginbase.hook;
 
 import com.github.retrooper.packetevents.PacketEvents;
-import com.github.retrooper.packetevents.event.PacketListenerCommon;
-import com.github.retrooper.packetevents.event.PacketListenerPriority;
 import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.util.BaseLogger;
 import io.github.mqzen.menus.Lotus;
@@ -10,7 +8,6 @@ import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder
 import lombok.Getter;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 // i know this class is horrible but i couldnt care less
 @Getter

@@ -3,7 +3,6 @@ package dev.isnow.pluginbase.module;
 import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.config.BaseConfig;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 

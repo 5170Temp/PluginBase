@@ -2,8 +2,8 @@ package dev.isnow.pluginbase.config;
 
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
-import dev.isnow.pluginbase.util.Range;
 import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.Range;
 import dev.isnow.pluginbase.util.cuboid.BaseLocation;
 import dev.isnow.pluginbase.util.serializer.config.ComponentSerializer;
 import dev.isnow.pluginbase.util.serializer.config.RangeSerializer;
@@ -41,6 +41,7 @@ public abstract class BaseConfig {
         return YamlConfigurations.load(path, getClass(), PROPERTIES);
     }
 
+    @SuppressWarnings("unchecked")
     public <T> void save() {
         YamlConfigurations.save(path, (Class<T>) this.getClass(), (T) this, PROPERTIES);
     }

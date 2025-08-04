@@ -2,7 +2,6 @@ package dev.isnow.pluginbase.data.base;
 
 import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.database.Database;
-import dev.isnow.pluginbase.database.DatabaseManager;
 import dev.isnow.pluginbase.util.ExpiringSession;
 import jakarta.persistence.*;
 import lombok.Getter;

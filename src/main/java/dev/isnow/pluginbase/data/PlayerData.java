@@ -10,7 +10,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import java.util.*;
+
+import java.util.Map;
+import java.util.UUID;
 import java.util.function.BiConsumer;
 
 @Entity

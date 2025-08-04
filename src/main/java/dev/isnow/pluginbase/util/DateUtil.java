@@ -7,8 +7,9 @@ import java.util.Locale;
 
 @UtilityClass
 public class DateUtil {
+
+    // Break the elapsed milliseconds into seconds and milliseconds. From Android
     public String formatElapsedTime(long elapsedMilliseconds) {
-        // Break the elapsed milliseconds into seconds and milliseconds. From Android
         long seconds = 0;
         long milliseconds;
         if (elapsedMilliseconds >= 1000) {
@@ -16,8 +17,8 @@ public class DateUtil {
             elapsedMilliseconds -= seconds * 1000;
         }
         milliseconds = elapsedMilliseconds;
-        final StringBuilder sb = new StringBuilder(8);
 
+        final StringBuilder sb = new StringBuilder(8);
         final Formatter f = new Formatter(sb, Locale.getDefault());
 
         return f.format("%d.%03d", seconds, milliseconds).toString();
@@ -39,7 +40,6 @@ public class DateUtil {
         timeString.append(hours).append("h ");
         timeString.append(minutes).append("m");
 
-        BaseLogger.debug("Time: " + timeString.toString().trim() + " | Elapsed: " + elapsedMilliseconds);
         return timeString.toString().trim();
     }
 }
