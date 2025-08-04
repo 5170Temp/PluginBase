@@ -60,7 +60,7 @@ public class ComponentUtil {
             input = PlaceholderAPI.setPlaceholders(player, input);
         }
 
-        if(PluginBase.getInstance().getConfigManager() != null) {
+        if(PluginBase.getInstance().getConfigManager().getGeneralConfig() != null) {
             input = input.replaceAll("\\[P]", PluginBase.getInstance().getConfigManager().getGeneralConfig().getPrefix());
         }
 
