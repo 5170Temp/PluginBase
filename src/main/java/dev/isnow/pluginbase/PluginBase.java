@@ -32,7 +32,7 @@ public final class PluginBase extends JavaPlugin {
     private final DatabaseManager databaseManager = new DatabaseManager(this);
     private final ConfigManager configManager = new ConfigManager(this);
     private final ModuleManager moduleManager = new ModuleManager(this);
-    private CommandManager commandManager;
+    private final CommandManager commandManager = new CommandManager(this);
 
     private ExecutorService threadPool;
     private ScheduledExecutorService scheduler;

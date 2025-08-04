@@ -93,7 +93,7 @@ public class ModuleManager {
 
     private void initManagers(final Set<Class<?>> allDatabaseEntities) {
         BaseLogger.info("Initializing Command Manager...");
-        plugin.setCommandManager(new CommandManager(plugin));
+        plugin.getCommandManager().initCommandManager();
 
         BaseLogger.info("Initializing Database Manager with " + allDatabaseEntities.size() + " module entities...");
         final ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
