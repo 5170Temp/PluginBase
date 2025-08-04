@@ -10,6 +10,7 @@ import dev.velix.imperat.BukkitSource;
 import dev.velix.imperat.annotations.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.hibernate.stat.Statistics;
 
 // TODO: USE NEW IMPERAT STUFF
@@ -18,6 +19,11 @@ import org.hibernate.stat.Statistics;
 @Permission("mcrekus.admin")
 @SuppressWarnings("unused")
 public class BaseCommand {
+    private final PluginBase plugin;
+
+    public BaseCommand(PluginBase plugin) {
+        this.plugin = plugin;
+    }
 
     @Usage
     @Async
@@ -39,12 +45,12 @@ public class BaseCommand {
             final long startTime = System.currentTimeMillis();
 
             source.reply(ComponentUtil.deserialize("&aReloading general config..."));
-            PluginBase.getInstance().getConfigManager().reloadConfigs();
+            plugin.getConfigManager().reloadConfigs();
             source.reply(ComponentUtil.deserialize("&aReloaded general config successfully!"));
 
             source.reply(ComponentUtil.deserialize("&aReloading modules..."));
-            PluginBase.getInstance().getModuleManager().disableModules();
-            PluginBase.getInstance().getModuleManager().loadAndEnableModules("dev.isnow.pluginbase.module.impl");
+            plugin.getModuleManager().disableModules();
+            plugin.getModuleManager().loadAndEnableModules("dev.isnow.pluginbase.module.impl");
             source.reply(ComponentUtil.deserialize("&aReloaded modules successfully!"));
 
             final String date = DateUtil.formatElapsedTime((System.currentTimeMillis() - startTime));
@@ -54,7 +60,7 @@ public class BaseCommand {
             return;
         }
 
-        final DatabaseManager databaseManager = PluginBase.getInstance().getDatabaseManager();
+        final DatabaseManager databaseManager = plugin.getDatabaseManager();
 
         if (action.equalsIgnoreCase("manualsave")) {
             source.reply(ComponentUtil.deserialize("&aSaving player data..."));
@@ -80,7 +86,7 @@ public class BaseCommand {
                 return;
             }
 
-            final java.util.Optional<Module<?>> module = PluginBase.getInstance().getModuleManager().getModuleByName(moduleName);
+            final java.util.Optional<Module<?>> module = plugin.getModuleManager().getModuleByName(moduleName);
 
             if(module.isEmpty()) {
                 source.reply(ComponentUtil.deserialize("&cModule not found!"));

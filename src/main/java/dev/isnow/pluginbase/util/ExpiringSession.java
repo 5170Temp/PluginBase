@@ -9,18 +9,21 @@ import java.util.concurrent.TimeUnit;
 
 @Getter
 public final class ExpiringSession implements AutoCloseable {
+    private final PluginBase plugin;
     private final Session session;
     private final int delay;
     private ScheduledFuture<?> scheduledFuture;
 
-    public ExpiringSession(final Session session) {
+    public ExpiringSession(final PluginBase plugin, final Session session) {
+        this.plugin = plugin;
         this.session = session;
         this.delay = 5;
 
         scheduleSessionClose();
     }
 
-    public ExpiringSession(final Session session, final int delay) {
+    public ExpiringSession(final PluginBase plugin, final Session session, final int delay) {
+        this.plugin = plugin;
         this.session = session;
         this.delay = delay;
 
@@ -28,7 +31,7 @@ public final class ExpiringSession implements AutoCloseable {
     }
 
     private void scheduleSessionClose() {
-        scheduledFuture = PluginBase.getInstance().getScheduler().schedule(() -> {
+        scheduledFuture = plugin.getScheduler().schedule(() -> {
             if (session.isOpen()) {
                 session.close();
                 BaseLogger.debug("Closed session due to expiration.");

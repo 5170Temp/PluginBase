@@ -144,7 +144,7 @@ public class Database {
     }
 
     public ExpiringSession openSession() {
-        return new ExpiringSession(sessionFactory.openSession());
+        return new ExpiringSession(plugin, sessionFactory.openSession());
     }
 
     public Statistics getStatistics() {
