@@ -64,7 +64,7 @@ public class Database {
         configuration.setProperty("hibernate.hbm2ddl.auto", "update");
 
         try {
-            for(final Class<?> clazz : ReflectionUtil.getClasses("dev.isnow.pluginbase.data")) {
+            for(final Class<?> clazz : ReflectionUtil.getClasses(PluginBase.class.getPackage().getName() + ".data")) {
                 configuration.addAnnotatedClass(clazz);
             }
         } catch (final Exception e) {

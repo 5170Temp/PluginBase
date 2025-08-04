@@ -26,7 +26,7 @@ public final class DatabaseManager {
         }
 
         ConfigManager configManager = plugin.getConfigManager();
-        this.database = new Database(configManager.getGeneralConfig(), configManager.getDatabaseConfig(), moduleEntities);
+        this.database = new Database(plugin, configManager.getGeneralConfig(), configManager.getDatabaseConfig(), moduleEntities);
     }
 
     public void shutdown() {

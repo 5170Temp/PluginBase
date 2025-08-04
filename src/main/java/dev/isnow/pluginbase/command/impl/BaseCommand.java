@@ -50,7 +50,7 @@ public class BaseCommand {
 
             source.reply(ComponentUtil.deserialize("&aReloading modules..."));
             plugin.getModuleManager().disableModules();
-            plugin.getModuleManager().loadAndEnableModules("dev.isnow.pluginbase.module.impl");
+            plugin.getModuleManager().loadAndEnableModules(PluginBase.class.getPackage().getName() + ".module.impl");
             source.reply(ComponentUtil.deserialize("&aReloaded modules successfully!"));
 
             final String date = DateUtil.formatElapsedTime((System.currentTimeMillis() - startTime));

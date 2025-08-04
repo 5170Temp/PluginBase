@@ -21,7 +21,7 @@ public class CommandManager {
                 .namedSuggestionResolver("home", new HomeResolver())
                 .build();
 
-        commandManager.registerCommand(new BaseCommand());
+        commandManager.registerCommand(new BaseCommand(plugin));
     }
 
     public void registerCommand(final Object command) {
