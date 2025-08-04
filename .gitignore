@@ -40,3 +40,7 @@ bin/
 
 .env
 /.idea
+gradlew.bat
+gradle/
+gradlew
+.idea/*
