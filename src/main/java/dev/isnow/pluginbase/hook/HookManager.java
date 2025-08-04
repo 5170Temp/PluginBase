@@ -15,6 +15,8 @@ import org.bukkit.entity.Player;
 // i know this class is horrible but i couldnt care less
 @Getter
 public class HookManager {
+    private final PluginBase plugin;
+
     private Lotus menuAPI;
     private Economy economy;
 
@@ -25,7 +27,11 @@ public class HookManager {
     private boolean vaultHook;
     private boolean packetEventsHook;
 
-    public void onLoad(final PluginBase plugin) {
+    public HookManager(final PluginBase plugin) {
+        this.plugin = plugin;
+    }
+
+    public void onLoad() {
         packetEventsHook = Bukkit.getPluginManager().getPlugin("packetevents") != null;
         if (packetEventsHook) {
             BaseLogger.info("Hooking into PacketEvents");
@@ -37,7 +43,16 @@ public class HookManager {
         }
     }
 
-    public void onEnable(final PluginBase plugin) {
+    public void onEnable() {
+        if (packetEventsHook) {
+            try {
+                BaseLogger.info("Initializing PacketEvents");
+                PacketEvents.getAPI().init();
+            } catch (final Exception e) {
+                BaseLogger.error("Failed to initialize PacketEvents: " + e.getMessage());
+            }
+        }
+
         placeholerAPIHook = Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null;
         if (placeholerAPIHook) {
             BaseLogger.info("Hooking into PlaceholderAPI");

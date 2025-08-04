@@ -17,6 +17,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -27,13 +28,11 @@ public final class PluginBase extends JavaPlugin {
     @Getter
     private static PluginBase instance;
 
-    private HookManager hookManager = new HookManager();;
-    private ConfigManager configManager;
-    private ModuleManager moduleManager;
+    private final HookManager hookManager = new HookManager(this);
+    private final DatabaseManager databaseManager = new DatabaseManager(this);
+    private final ConfigManager configManager = new ConfigManager(this);
+    private final ModuleManager moduleManager = new ModuleManager(this);
     private CommandManager commandManager;
-    private DatabaseManager databaseManager;
-
-    private boolean shuttingDown;
 
     private ExecutorService threadPool;
     private ScheduledExecutorService scheduler;
@@ -43,58 +42,38 @@ public final class PluginBase extends JavaPlugin {
         instance = this;
 
         BaseLogger.info("Loading pre-hooks");
-        hookManager.onLoad(this);
+        hookManager.onLoad();
     }
 
     @Override
     public void onEnable() {
         final long startTime = System.currentTimeMillis();
-
         BaseLogger.watermark();
 
         BaseLogger.info("Initializing config");
-        configManager = new ConfigManager(this);
+        configManager.reloadConfigs();
 
         final String pluginName = getPluginMeta().getName();
-
         threadPool = Executors.newFixedThreadPool(configManager.getGeneralConfig().getThreadAmount(), new ThreadFactoryBuilder().setNameFormat(pluginName + "-worker-thread-%d").build());
         scheduler = Executors.newScheduledThreadPool(configManager.getGeneralConfig().getThreadAmount(), new ThreadFactoryBuilder().setNameFormat(pluginName + "-scheduler-thread-%d").build());
 
         BaseLogger.info("Loading hooks");
-        hookManager.onEnable(this);
-
-        BaseLogger.info("Initializing database connection");
-        databaseManager = new DatabaseManager(this);
-
-        if(hookManager.isPacketEventsHook()) {
-            try {
-                BaseLogger.info("Initializing PacketEvents");
-                PacketEvents.getAPI().init();
-            } catch (final Exception e) {
-                BaseLogger.error("Failed to initialize PacketEvents: " + e.getMessage());
-            }
-        }
+        hookManager.onEnable();
 
         BaseLogger.info("Loading modules");
-        moduleManager = new ModuleManager(this);
-        moduleManager.loadAndEnableModules("dev.isnow.pluginbase.module.impl");
+        moduleManager.loadAndEnableModules(getClass().getPackage().getName() + ".module.impl");
 
         Bukkit.getPluginManager().registerEvents(new LoginEvent(), this);
         Bukkit.getPluginManager().registerEvents(new QuitEvent(), this);
 
-        final String date = DateUtil.formatElapsedTime((System.currentTimeMillis() - startTime));
-        BaseLogger.info("Finished loading in " + date + " seconds.");
+        final String time = DateUtil.formatElapsedTime(System.currentTimeMillis() - startTime);
+        BaseLogger.info("Finished enabling in " + time + " seconds.");
     }
 
     @Override
     public void onDisable() {
         final long startTime = System.currentTimeMillis();
         BaseLogger.watermark();
-        shuttingDown = true;
-
-        if (moduleManager == null) {
-            return;
-        }
 
         BaseLogger.info("Saving player data");
         for(final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
@@ -104,22 +83,23 @@ public final class PluginBase extends JavaPlugin {
         BaseLogger.info("Shutting down thread pool");
         threadPool.shutdown();
         try {
-            boolean shutdown = threadPool.awaitTermination(15000, java.util.concurrent.TimeUnit.MILLISECONDS);
+            final boolean shutdown = threadPool.awaitTermination(15000, java.util.concurrent.TimeUnit.MILLISECONDS);
 
             if (!shutdown) {
                 BaseLogger.error("Failed to shut down thread pool, expect data loss");
             }
-        } catch (InterruptedException ignored) {}
+        } catch (final InterruptedException ignored) {}
+
         BaseLogger.info("Disabling modules");
         moduleManager.disableModules();
-        BaseLogger.info("Disabled modules successfully!");
 
+        BaseLogger.info("Shutting down database");
         databaseManager.getDatabase().shutdown();
 
         BaseLogger.info("Shutting down hooks");
         hookManager.onDisable();
 
-        final String date = DateUtil.formatElapsedTime((System.currentTimeMillis() - startTime));
-        BaseLogger.info("Finished disabling in " + date + " seconds.");
+        final String time = DateUtil.formatElapsedTime(System.currentTimeMillis() - startTime);
+        BaseLogger.info("Finished disabling in " + time + " seconds.");
     }
 }

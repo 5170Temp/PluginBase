@@ -16,17 +16,15 @@ public class ConfigManager {
 
     public ConfigManager(final PluginBase plugin) {
         this.plugin = plugin;
+    }
 
+    private void loadAll() {
         final File modulesPath = new File(plugin.getDataFolder() + File.separator + "modules");
 
         if(!modulesPath.exists()) {
             modulesPath.mkdir();
         }
 
-        loadAll();
-    }
-
-    private void loadAll() {
         generalConfig = (GeneralConfig) new GeneralConfig().load();
         databaseConfig = (DatabaseConfig) new DatabaseConfig().load();
     }
