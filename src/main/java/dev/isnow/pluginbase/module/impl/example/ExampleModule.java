@@ -7,9 +7,7 @@ import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
 import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.isnow.pluginbase.module.impl.example.teleport.TeleportManager;
 import dev.isnow.pluginbase.util.BaseLogger;
-import dev.isnow.pluginbase.util.ComponentUtil;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 
 import java.util.Collection;
 import java.util.Collections;
