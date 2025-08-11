@@ -3,7 +3,7 @@ package dev.isnow.pluginbase.database;
 import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.config.ConfigManager;
 import dev.isnow.pluginbase.data.PlayerData;
-import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 

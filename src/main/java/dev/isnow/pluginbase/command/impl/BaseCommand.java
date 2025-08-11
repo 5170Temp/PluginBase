@@ -10,7 +10,6 @@ import dev.velix.imperat.BukkitSource;
 import dev.velix.imperat.annotations.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.hibernate.stat.Statistics;
 
 // TODO: USE NEW IMPERAT STUFF
@@ -40,7 +39,6 @@ public class BaseCommand {
     @Usage
     @Async
     public void execute(final BukkitSource source, @Named("action") @Suggest({"reload", "manualsave", "dbstatistics", "resetconfig"}) final String action, @Named("module") @Optional final String moduleName) {
-        
         if (action.equalsIgnoreCase("reload")) {
             final long startTime = System.currentTimeMillis();
 

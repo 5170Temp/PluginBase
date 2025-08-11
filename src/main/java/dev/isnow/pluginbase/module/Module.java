@@ -1,8 +1,8 @@
 package dev.isnow.pluginbase.module;
 
 import dev.isnow.pluginbase.PluginBase;
-import dev.isnow.pluginbase.util.BaseLogger;
 import dev.isnow.pluginbase.util.ReflectionUtil;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import dev.velix.imperat.annotations.Command;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -40,7 +40,7 @@ public abstract class Module<T extends ModuleConfig> {
             T configInstance = configClass.getDeclaredConstructor().newInstance();
             this.config = (T) configInstance.load();
         } catch (final Exception e) {
-            BaseLogger.error("Failed to automatically initialize config for module " + getClass().getSimpleName() + e);
+            BaseLogger.error("Failed to automatically initialize config for module " + getClass().getSimpleName(), e);
         }
     }
 
@@ -62,8 +62,7 @@ public abstract class Module<T extends ModuleConfig> {
                 }
             }
         } catch (final Exception e) {
-            BaseLogger.error("Failed to register commands for module " + getClass().getSimpleName() + e);
-            e.printStackTrace();
+            BaseLogger.error("Failed to register commands for module " + getClass().getSimpleName(), e);
         }
     }
 
@@ -84,8 +83,7 @@ public abstract class Module<T extends ModuleConfig> {
             registeredCommands.add(commandInstance);
 
         } catch (Exception e) {
-            BaseLogger.error("Failed to register command " + commandClass.getSimpleName() + " for module " + getClass().getSimpleName() + e);
-            e.printStackTrace();
+            BaseLogger.error("Failed to register command " + commandClass.getSimpleName() + " for module " + getClass().getSimpleName(), e);
         }
     }
 
@@ -104,8 +102,7 @@ public abstract class Module<T extends ModuleConfig> {
                 }
             }
         } catch (final Exception e) {
-            BaseLogger.error("Failed to register listeners for module " + getClass().getSimpleName() + e);
-            e.printStackTrace();
+            BaseLogger.error("Failed to register listeners for module " + getClass().getSimpleName(), e);
         }
     }
 
@@ -126,8 +123,7 @@ public abstract class Module<T extends ModuleConfig> {
             registeredListeners.add(listenerInstance);
 
         } catch (Exception e) {
-            BaseLogger.error("Failed to register listener " + listenerClass.getSimpleName() + " for module " + getClass().getSimpleName() + e);
-            e.printStackTrace();
+            BaseLogger.error("Failed to register listener " + listenerClass.getSimpleName() + " for module " + getClass().getSimpleName(), e);
         }
     }
 

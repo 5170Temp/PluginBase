@@ -4,8 +4,8 @@ import com.google.common.graph.GraphBuilder;
 import com.google.common.graph.MutableGraph;
 import com.google.common.graph.Traverser;
 import dev.isnow.pluginbase.PluginBase;
-import dev.isnow.pluginbase.util.BaseLogger;
 import dev.isnow.pluginbase.util.ReflectionUtil;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -38,7 +38,7 @@ public class ModuleManager {
         try {
             sortedModuleClasses = sortModulesByDependencies(discoveredModuleClasses);
         } catch (final Exception e) {
-            BaseLogger.error("Failed to sort module dependencies " + e);
+            BaseLogger.error("Failed to sort module dependencies ", e);
             return;
         }
 
@@ -64,8 +64,7 @@ public class ModuleManager {
 
                 BaseLogger.info("Successfully enabled module " + moduleClass.getSimpleName());
             } catch (final Exception e) {
-                BaseLogger.error("Failed to enable module " + moduleClass.getSimpleName() + " ");
-                e.printStackTrace();
+                BaseLogger.error("Failed to enable module " + moduleClass.getSimpleName() + " ", e);
                 modules.remove(moduleClass);
             }
         }
@@ -81,7 +80,7 @@ public class ModuleManager {
                 BaseLogger.info("Disabling " + module.getClass().getSimpleName() + "...");
                 module.onDisable();
             } catch (final Exception e) {
-                BaseLogger.error("An error occurred while disabling module " + module.getClass().getSimpleName() + e);
+                BaseLogger.error("An error occurred while disabling module " + module.getClass().getSimpleName(), e);
             }
         }
 
@@ -95,9 +94,11 @@ public class ModuleManager {
         plugin.getCommandManager().initCommandManager();
 
         BaseLogger.info("Initializing Database Manager with " + allDatabaseEntities.size() + " module entities...");
+
         final ClassLoader originalClassLoader = Thread.currentThread().getContextClassLoader();
         plugin.getDatabaseManager().initialize(allDatabaseEntities);
         Thread.currentThread().setContextClassLoader(originalClassLoader);
+
         if (!plugin.getDatabaseManager().getDatabase().isConnected()) {
             BaseLogger.info("Failed to connect to the database! This plugin won't work without an database.");
             Bukkit.getPluginManager().disablePlugin(plugin);
@@ -125,7 +126,7 @@ public class ModuleManager {
             BaseLogger.debug("Module " + moduleClass.getSimpleName() + " has no default constructor. Cannot pre-scan for entities without full init.");
             return null;
         } catch (final Exception e) {
-            BaseLogger.warn("Could not create dummy instance of " + moduleClass.getSimpleName() + " to scan entities. " + e);
+            BaseLogger.warn("Could not create dummy instance of " + moduleClass.getSimpleName() + " to scan entities. ", e);
             return null;
         }
     }
@@ -201,7 +202,7 @@ public class ModuleManager {
                     .map(c -> (Class<? extends Module<?>>) c)
                     .collect(Collectors.toSet());
         } catch (Exception e) {
-            BaseLogger.error("Failed to scan for modules in package: " + packageName + e);
+            BaseLogger.error("Failed to scan for modules in package: " + packageName, e);
             return new HashSet<>();
         }
     }

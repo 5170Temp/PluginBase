@@ -2,9 +2,9 @@ package dev.isnow.pluginbase.config;
 
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
-import dev.isnow.pluginbase.util.BaseLogger;
 import dev.isnow.pluginbase.util.Range;
 import dev.isnow.pluginbase.util.cuboid.BaseLocation;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import dev.isnow.pluginbase.util.serializer.config.ComponentSerializer;
 import dev.isnow.pluginbase.util.serializer.config.RangeSerializer;
 import dev.isnow.pluginbase.util.serializer.config.RekusLocationSerializer;
@@ -34,7 +34,7 @@ public abstract class BaseConfig {
 
     public BaseConfig load() {
         if(!path.toFile().exists()) {
-            BaseLogger.debug("Config file " + path + " does not exist, creating...", true);
+            BaseLogger.debug("Config file " + path + " does not exist, creating...");
             save();
         }
 

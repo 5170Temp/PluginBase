@@ -1,6 +1,7 @@
 package dev.isnow.pluginbase.util;
 
 import dev.isnow.pluginbase.PluginBase;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Getter;
 import org.hibernate.Session;
 

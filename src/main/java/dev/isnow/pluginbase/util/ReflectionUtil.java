@@ -1,6 +1,7 @@
 package dev.isnow.pluginbase.util;
 
 import dev.isnow.pluginbase.PluginBase;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
@@ -77,7 +78,7 @@ public class ReflectionUtil {
                     try {
                         classes.add(Class.forName(className));
                     } catch (ClassNotFoundException | NoClassDefFoundError e) {
-                        BaseLogger.warn("Skipping class " + className + " due to missing dependency: " + e.getMessage());
+                        BaseLogger.warn("Skipping class " + className + " due to missing dependency", e);
                     }
                 }
             }

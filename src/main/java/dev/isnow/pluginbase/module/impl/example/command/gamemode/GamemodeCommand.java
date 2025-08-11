@@ -4,6 +4,7 @@ import dev.isnow.pluginbase.module.ModuleCommand;
 import dev.isnow.pluginbase.module.impl.example.ExampleModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
 import dev.isnow.pluginbase.util.ComponentUtil;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import dev.velix.imperat.BukkitSource;
 import dev.velix.imperat.annotations.*;
 import org.bukkit.GameMode;
@@ -52,8 +53,11 @@ public class GamemodeCommand extends ModuleCommand<ExampleModule> {
 
         final Player player = source.asPlayer();
 
+        BaseLogger.debug("1");
         if (foundGameMode != null && player.hasPermission("mcrekus.gamemode." + foundGameMode.name().toLowerCase())) {
+            BaseLogger.debug("23");
             if(target != null) {
+                BaseLogger.debug("69");
                 target.setGameMode(foundGameMode);
                 target.setAllowFlight(foundGameMode == GameMode.CREATIVE
                         || foundGameMode == GameMode.SPECTATOR);
@@ -62,11 +66,12 @@ public class GamemodeCommand extends ModuleCommand<ExampleModule> {
                                 "%gamemode%", getTranslation(foundGameMode), "%player%",
                                 target.getName()));
             } else {
+                BaseLogger.debug("2");
                 player.setGameMode(foundGameMode);
                 player.setAllowFlight(foundGameMode == GameMode.CREATIVE || foundGameMode == GameMode.SPECTATOR);
                 source.reply(ComponentUtil.deserialize(config.getGamemodeChangedMessage(), null, "%gamemode%", getTranslation(foundGameMode)));
             }
-
+            BaseLogger.debug("3");
             if(config.getGamemodeChangedSound() != null) {
                 player.playSound(player.getLocation(), config.getGamemodeChangedSound(), 1.0F, 1.0F);
             }

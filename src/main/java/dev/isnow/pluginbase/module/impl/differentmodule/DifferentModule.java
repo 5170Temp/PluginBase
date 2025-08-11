@@ -2,7 +2,7 @@ package dev.isnow.pluginbase.module.impl.differentmodule;
 
 import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.module.Module;
-import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Getter;
 
 @Getter

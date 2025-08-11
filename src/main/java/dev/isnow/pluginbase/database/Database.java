@@ -4,9 +4,9 @@ import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.config.impl.GeneralConfig;
 import dev.isnow.pluginbase.config.impl.database.DatabaseConfig;
 import dev.isnow.pluginbase.config.impl.database.DatabaseTypeConfig;
-import dev.isnow.pluginbase.util.BaseLogger;
 import dev.isnow.pluginbase.util.ExpiringSession;
 import dev.isnow.pluginbase.util.ReflectionUtil;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,7 +38,7 @@ public class Database {
         try {
             return configureHibernate(mainConfig, authConfig, moduleEntities);
         } catch (Exception e) {
-            BaseLogger.error("Failed to initialize Hibernate session factory: " + e.getMessage());
+            BaseLogger.error("Failed to initialize Hibernate session factory: ", e);
             return null;
         }
     }
@@ -68,7 +68,7 @@ public class Database {
                 configuration.addAnnotatedClass(clazz);
             }
         } catch (final Exception e) {
-            BaseLogger.error("Failed to load data classes: " + e.getMessage());
+            BaseLogger.error("Failed to load data classes: ", e);
         }
 
         BaseLogger.debug("Registering " + moduleEntities.size() + " database entities from modules...");
@@ -124,7 +124,7 @@ public class Database {
                 tx.commit();
             } catch (final Exception e) {
                 if (tx != null) tx.rollback();
-                BaseLogger.error("Transaction failed: " + e.getMessage());
+                BaseLogger.error("Transaction failed: ", e);
             } finally {
                 expiringSession.closeSession();
             }
@@ -160,7 +160,7 @@ public class Database {
                 T entity = query.setCacheable(true).uniqueResult();
                 callback.accept(session, entity);
             } catch (final Exception e) {
-                BaseLogger.error("Failed to fetch entity: " + e.getMessage());
+                BaseLogger.error("Failed to fetch entity: ", e);
                 callback.accept(null, null);
             }
         }, plugin.getThreadPool());
@@ -177,7 +177,7 @@ public class Database {
 
                 callback.accept(session, entities);
             } catch (Exception e) {
-                BaseLogger.error("Failed to fetch entities: " + e.getMessage());
+                BaseLogger.error("Failed to fetch entities", e);
                 callback.accept(null, null);
             }
         }, plugin.getThreadPool());

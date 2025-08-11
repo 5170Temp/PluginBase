@@ -3,7 +3,7 @@ package dev.isnow.pluginbase.config.impl;
 import de.exlll.configlib.Comment;
 import de.exlll.configlib.Configuration;
 import dev.isnow.pluginbase.config.MasterConfig;
-import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Getter;
 import lombok.Setter;
 

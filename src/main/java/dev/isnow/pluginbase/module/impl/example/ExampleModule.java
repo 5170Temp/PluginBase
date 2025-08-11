@@ -6,7 +6,7 @@ import dev.isnow.pluginbase.module.impl.differentmodule.DifferentModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
 import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.isnow.pluginbase.module.impl.example.teleport.TeleportManager;
-import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Getter;
 
 import java.util.Collection;

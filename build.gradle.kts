@@ -1,4 +1,4 @@
-// 1. Corrected imports to use the public JSch library
+import com.github.jengelman.gradle.plugins.shadow.transformers.Log4j2PluginsCacheFileTransformer
 import com.jcraft.jsch.ChannelExec
 import com.jcraft.jsch.JSch
 import com.jcraft.jsch.Session
@@ -95,6 +95,7 @@ tasks {
 
     shadowJar {
         archiveFileName.set("${project.name}.jar")
+        transform(Log4j2PluginsCacheFileTransformer::class.java)
     }
 
     build {

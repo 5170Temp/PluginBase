@@ -9,8 +9,8 @@ import dev.isnow.pluginbase.event.LoginEvent;
 import dev.isnow.pluginbase.event.QuitEvent;
 import dev.isnow.pluginbase.hook.HookManager;
 import dev.isnow.pluginbase.module.ModuleManager;
-import dev.isnow.pluginbase.util.BaseLogger;
 import dev.isnow.pluginbase.util.DateUtil;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -38,6 +38,7 @@ public final class PluginBase extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
+        //BukkitLoggerFactory.provideBukkitLogger(this.getLogger());
 
         BaseLogger.info("Loading pre-hooks");
         hookManager.onLoad();

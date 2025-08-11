@@ -2,7 +2,7 @@ package dev.isnow.pluginbase.hook;
 
 import com.github.retrooper.packetevents.PacketEvents;
 import dev.isnow.pluginbase.PluginBase;
-import dev.isnow.pluginbase.util.BaseLogger;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import io.github.mqzen.menus.Lotus;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import lombok.Getter;
@@ -46,7 +46,7 @@ public class HookManager {
                 BaseLogger.info("Initializing PacketEvents");
                 PacketEvents.getAPI().init();
             } catch (final Exception e) {
-                BaseLogger.error("Failed to initialize PacketEvents: " + e.getMessage());
+                BaseLogger.error("Failed to initialize PacketEvents: ", e);
             }
         }
 
