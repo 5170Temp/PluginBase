@@ -7,7 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 
 @Converter
-public final class RekusLocationSerializer implements AttributeConverter<BaseLocation, String> {
+public final class BaseLocationSerializer implements AttributeConverter<BaseLocation, String> {
 
     @Override
     public String convertToDatabaseColumn(final BaseLocation baseLocation) {

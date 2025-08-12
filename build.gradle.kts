@@ -81,6 +81,10 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.30")
 }
 
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("-parameters")
+}
+
 tasks {
     processResources {
         val props = mapOf(

@@ -7,7 +7,7 @@ import dev.isnow.pluginbase.util.cuboid.BaseLocation;
 import dev.isnow.pluginbase.util.logger.BaseLogger;
 import dev.isnow.pluginbase.util.serializer.config.ComponentSerializer;
 import dev.isnow.pluginbase.util.serializer.config.RangeSerializer;
-import dev.isnow.pluginbase.util.serializer.config.RekusLocationSerializer;
+import dev.isnow.pluginbase.util.serializer.config.BaseLocationSerializer;
 import dev.isnow.pluginbase.util.serializer.config.SoundSerializer;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
@@ -18,7 +18,7 @@ import java.nio.file.Path;
 @Getter
 public abstract class BaseConfig {
     private static final YamlConfigurationProperties PROPERTIES = YamlConfigurationProperties.newBuilder()
-            .addSerializer(BaseLocation.class, new RekusLocationSerializer())
+            .addSerializer(BaseLocation.class, new BaseLocationSerializer())
             .addSerializer(Component.class, new ComponentSerializer())
             .addSerializer(Range.class, new RangeSerializer())
             .addSerializer(Sound.class, new SoundSerializer())

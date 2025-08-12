@@ -3,7 +3,7 @@ package dev.isnow.pluginbase.module.impl.example.data;
 import dev.isnow.pluginbase.data.PlayerData;
 import dev.isnow.pluginbase.data.base.BaseData;
 import dev.isnow.pluginbase.util.cuboid.BaseLocation;
-import dev.isnow.pluginbase.util.serializer.database.RekusLocationSerializer;
+import dev.isnow.pluginbase.util.serializer.database.BaseLocationSerializer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +21,7 @@ public class HomeData extends BaseData {
     private String name;
 
     @Column(name = "location")
-    @Convert(converter = RekusLocationSerializer.class)
+    @Convert(converter = BaseLocationSerializer.class)
     private BaseLocation location;
 
     @ManyToOne

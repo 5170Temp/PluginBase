@@ -8,7 +8,7 @@ import org.bukkit.World;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RekusLocationSerializer implements Serializer<BaseLocation, Map<String, String>> {
+public class BaseLocationSerializer implements Serializer<BaseLocation, Map<String, String>> {
     @Override
     public Map<String, String> serialize(final BaseLocation baseLocation) {
         final Map<String, String> map = new HashMap<>();

@@ -13,7 +13,7 @@ import java.util.Collection;
 public final class DatabaseManager {
 
     private final PluginBase plugin;
-    private Database database; // Now initialized later
+    private Database database;
 
     public DatabaseManager(PluginBase plugin) {
         this.plugin = plugin;
