@@ -51,6 +51,10 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://repo.codemc.io/repository/maven-releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven {
+        name = "central-snapshots"
+        url = uri("https://central.sonatype.com/repository/maven-snapshots/")
+    }
 }
 
 dependencies {
@@ -65,12 +69,12 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
-    compileOnly("dev.velix:imperat-core:1.9.7")
-    compileOnly("dev.velix:imperat-bukkit:1.9.7")
+    implementation("studio.mevera:imperat-core:2.0.0-SNAPSHOT")
+    implementation("studio.mevera:imperat-bukkit:2.0.0-SNAPSHOT")
 
     compileOnly("de.exlll:configlib-paper:4.6.1")
 
-    compileOnly("com.github.ben-manes.caffeine:caffeine:3.1.8")
+    compileOnly("com.github.ben-manes.caffeine:caffeine:3.2.2")
     compileOnly("org.hibernate.orm:hibernate-jcache:6.2.8.Final")
 
     compileOnly("com.github.retrooper:packetevents-spigot:2.9.3")

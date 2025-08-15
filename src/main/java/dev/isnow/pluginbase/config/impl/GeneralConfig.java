@@ -25,7 +25,7 @@ public class GeneralConfig extends MasterConfig {
     private boolean debugMode = false;
 
     @Comment({"", "Messages Prefix"})
-    private String prefix = "<b><gradient:#FF0000:#FFAC00>NIGGERS</gradient></b> &8•";
+    private String prefix = "<b><gradient:#FF0000:#FFAC00>PluginBase</gradient></b> &8•";
 
     @Comment({"", "Increase this if your server is lagging with higher player count"})
     int threadAmount = 20;

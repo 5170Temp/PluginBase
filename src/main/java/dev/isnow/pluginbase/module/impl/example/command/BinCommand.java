@@ -5,11 +5,11 @@ import dev.isnow.pluginbase.module.impl.example.ExampleModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
 import dev.isnow.pluginbase.module.impl.example.menu.BinMenu;
 import dev.isnow.pluginbase.util.ComponentUtil;
-import dev.velix.imperat.BukkitSource;
-import dev.velix.imperat.annotations.Command;
-import dev.velix.imperat.annotations.Description;
-import dev.velix.imperat.annotations.Permission;
-import dev.velix.imperat.annotations.Usage;
+import studio.mevera.imperat.BukkitSource;
+import studio.mevera.imperat.annotations.Command;
+import studio.mevera.imperat.annotations.Description;
+import studio.mevera.imperat.annotations.Permission;
+import studio.mevera.imperat.annotations.Usage;
 import org.bukkit.entity.Player;
 
 @Command({"bin", "smietnik", "kosz"})

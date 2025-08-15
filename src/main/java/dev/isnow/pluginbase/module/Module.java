@@ -4,7 +4,7 @@ import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.data.BaseData;
 import dev.isnow.pluginbase.util.ReflectionUtil;
 import dev.isnow.pluginbase.util.logger.BaseLogger;
-import dev.velix.imperat.annotations.Command;
+import studio.mevera.imperat.annotations.Command;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
@@ -69,12 +69,12 @@ public abstract class Module<T extends ModuleConfig> {
     }
 
     public void flushAllEntityCaches() {
-        for (Class<? extends BaseData> entityClass : getDatabaseEntities()) {
+        for (final Class<? extends BaseData> entityClass : getDatabaseEntities()) {
             try {
-                Method saveMethod = entityClass.getMethod("saveAllCached");
+                final Method saveMethod = entityClass.getMethod("saveAllCached");
                 saveMethod.invoke(null);
-            } catch (NoSuchMethodException ignored) {
-            } catch (Exception e) {
+            } catch (final NoSuchMethodException ignored) {
+            } catch (final Exception e) {
                 BaseLogger.error("Failed to flush cache for entity " + entityClass.getSimpleName(), e);
             }
         }
@@ -96,7 +96,7 @@ public abstract class Module<T extends ModuleConfig> {
             plugin.getCommandManager().registerCommand(commandInstance);
             registeredCommands.add(commandInstance);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             BaseLogger.error("Failed to register command " + commandClass.getSimpleName() + " for module " + getClass().getSimpleName(), e);
         }
     }
@@ -136,7 +136,7 @@ public abstract class Module<T extends ModuleConfig> {
             Bukkit.getPluginManager().registerEvents(listenerInstance, plugin);
             registeredListeners.add(listenerInstance);
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             BaseLogger.error("Failed to register listener " + listenerClass.getSimpleName() + " for module " + getClass().getSimpleName(), e);
         }
     }

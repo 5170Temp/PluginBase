@@ -7,8 +7,8 @@ import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.isnow.pluginbase.util.ComponentUtil;
 import dev.isnow.pluginbase.util.PermissionUtil;
 import dev.isnow.pluginbase.util.cuboid.BaseLocation;
-import dev.velix.imperat.BukkitSource;
-import dev.velix.imperat.annotations.*;
+import studio.mevera.imperat.BukkitSource;
+import studio.mevera.imperat.annotations.*;
 import org.bukkit.entity.Player;
 
 @Command({"sethome", "ustawdom"})

@@ -1,9 +1,9 @@
 package dev.isnow.pluginbase.module.impl.example.command.gamemode;
 
-import dev.velix.imperat.BukkitSource;
-import dev.velix.imperat.command.parameters.CommandParameter;
-import dev.velix.imperat.context.SuggestionContext;
-import dev.velix.imperat.resolvers.SuggestionResolver;
+import studio.mevera.imperat.BukkitSource;
+import studio.mevera.imperat.command.parameters.CommandParameter;
+import studio.mevera.imperat.context.SuggestionContext;
+import studio.mevera.imperat.resolvers.SuggestionResolver;
 
 import java.util.List;
 

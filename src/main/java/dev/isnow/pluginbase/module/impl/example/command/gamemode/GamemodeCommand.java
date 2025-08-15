@@ -5,8 +5,8 @@ import dev.isnow.pluginbase.module.impl.example.ExampleModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
 import dev.isnow.pluginbase.util.ComponentUtil;
 import dev.isnow.pluginbase.util.logger.BaseLogger;
-import dev.velix.imperat.BukkitSource;
-import dev.velix.imperat.annotations.*;
+import studio.mevera.imperat.BukkitSource;
+import studio.mevera.imperat.annotations.*;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
