@@ -1,6 +1,7 @@
 package dev.isnow.pluginbase.module.impl.example;
 
 import dev.isnow.pluginbase.PluginBase;
+import dev.isnow.pluginbase.data.BaseData;
 import dev.isnow.pluginbase.module.Module;
 import dev.isnow.pluginbase.module.impl.differentmodule.DifferentModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
@@ -30,7 +31,7 @@ public class ExampleModule extends Module<ExampleModuleConfig> {
     }
 
     @Override
-    public Collection<Class<?>> getDatabaseEntities() {
+    public Collection<Class<? extends BaseData>> getDatabaseEntities() {
         return Collections.singleton(HomeData.class);
     }
 

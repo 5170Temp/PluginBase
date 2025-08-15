@@ -1,10 +1,10 @@
 package dev.isnow.pluginbase.menu;
 
-import dev.isnow.mcrekus.config.impl.inventory.GuiConfig;
-import dev.isnow.mcrekus.config.impl.inventory.MenuItemConfig;
-import dev.isnow.mcrekus.config.impl.inventory.StatefulItemConfig;
-import dev.isnow.mcrekus.util.ComponentUtil;
-import dev.isnow.mcrekus.util.Placeholders;
+import dev.isnow.pluginbase.config.impl.inventory.GuiConfig;
+import dev.isnow.pluginbase.config.impl.inventory.MenuItemConfig;
+import dev.isnow.pluginbase.config.impl.inventory.StatefulItemConfig;
+import dev.isnow.pluginbase.util.ComponentUtil;
+import dev.isnow.pluginbase.util.Placeholders;
 import io.github.mqzen.menus.base.Content;
 import io.github.mqzen.menus.base.Menu;
 import io.github.mqzen.menus.base.MenuView;

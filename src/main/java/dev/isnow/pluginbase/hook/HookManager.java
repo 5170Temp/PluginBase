@@ -9,13 +9,16 @@ import io.github.mqzen.menus.Lotus;
 import io.github.retrooper.packetevents.factory.spigot.SpigotPacketEventsBuilder;
 import io.papermc.paper.ServerBuildInfo;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 // i know this class is horrible but i couldnt care less
 @Getter
+@RequiredArgsConstructor
 public class HookManager {
+    private final PluginBase plugin;
 
     private PacketListenerCommon packetListener;
     private Lotus menuAPI;
@@ -31,7 +34,7 @@ public class HookManager {
     public void onLoad() {
         //packetListener = new RekusPacketListener().asAbstract(PacketListenerPriority.NORMAL);
 
-        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(PluginBase.getInstance()));
+        PacketEvents.setAPI(SpigotPacketEventsBuilder.build(plugin));
 
         PacketEvents.getAPI().load();
         PacketEvents.getAPI().getEventManager().registerListener(packetListener);
@@ -73,7 +76,7 @@ public class HookManager {
             economy = Bukkit.getServicesManager().getRegistration(Economy.class).getProvider();
         }
 
-        menuAPI = Lotus.load(PluginBase.getInstance());
+        menuAPI = Lotus.load(plugin);
     }
 
     public void onDisable() {

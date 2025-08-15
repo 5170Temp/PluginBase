@@ -33,13 +33,17 @@ public abstract class BaseConfig {
         this.path = path;
     }
 
-    public BaseConfig load() {
-        if(!path.toFile().exists()) {
-            BaseLogger.debug("Config file " + path + " does not exist, creating...");
+    public <T extends BaseConfig> T load() {
+        if (!path.toFile().exists()) {
             save();
+            return (T) this;
         }
 
-        return YamlConfigurations.load(path, getClass(), PROPERTIES);
+        return forceLoad();
+    }
+
+    public <T extends BaseConfig> T forceLoad() {
+        return YamlConfigurations.load(path, (Class<T>) this.getClass(), PROPERTIES);
     }
 
     @SuppressWarnings("unchecked")
@@ -52,4 +56,7 @@ public abstract class BaseConfig {
         BaseLogger.debug("Deleted config file " + path.getFileName() + " (" + deleted + ")");
     }
 
+    public boolean exists() {
+        return path.toFile().exists();
+    }
 }
