@@ -1,6 +1,7 @@
 package dev.isnow.pluginbase.module;
 
 import dev.isnow.pluginbase.PluginBase;
+import dev.isnow.pluginbase.data.BaseData;
 import dev.isnow.pluginbase.util.ReflectionUtil;
 import dev.isnow.pluginbase.util.logger.BaseLogger;
 import dev.velix.imperat.annotations.Command;
@@ -9,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
+import java.lang.reflect.Method;
 import java.util.*;
 
 @Getter
@@ -48,12 +50,12 @@ public abstract class Module<T extends ModuleConfig> {
 
     public void onDisable() {}
 
-    public Collection<Class<?>> getDatabaseEntities() {
+    public Collection<Class<? extends BaseData>> getDatabaseEntities() {
         return Collections.emptyList();
     }
 
     @SuppressWarnings("unchecked")
-    public final void registerCommands(String packageName) {
+    public final void registerCommands(final String packageName) {
         try {
             final List<Class<?>> commandClasses = ReflectionUtil.getClasses(getClass().getPackageName() + "." + packageName);
             for (final Class<?> clazz : commandClasses) {
@@ -63,6 +65,18 @@ public abstract class Module<T extends ModuleConfig> {
             }
         } catch (final Exception e) {
             BaseLogger.error("Failed to register commands for module " + getClass().getSimpleName(), e);
+        }
+    }
+
+    public void flushAllEntityCaches() {
+        for (Class<? extends BaseData> entityClass : getDatabaseEntities()) {
+            try {
+                Method saveMethod = entityClass.getMethod("saveAllCached");
+                saveMethod.invoke(null);
+            } catch (NoSuchMethodException ignored) {
+            } catch (Exception e) {
+                BaseLogger.error("Failed to flush cache for entity " + entityClass.getSimpleName(), e);
+            }
         }
     }
 

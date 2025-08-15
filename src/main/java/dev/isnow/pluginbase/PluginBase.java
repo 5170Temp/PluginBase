@@ -3,7 +3,7 @@ package dev.isnow.pluginbase;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import dev.isnow.pluginbase.command.CommandManager;
 import dev.isnow.pluginbase.config.ConfigManager;
-import dev.isnow.pluginbase.data.PlayerData;
+import dev.isnow.pluginbase.data.impl.PlayerData;
 import dev.isnow.pluginbase.database.DatabaseManager;
 import dev.isnow.pluginbase.event.LoginEvent;
 import dev.isnow.pluginbase.event.QuitEvent;
@@ -17,6 +17,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -75,8 +76,14 @@ public final class PluginBase extends JavaPlugin {
         BaseLogger.watermark();
 
         BaseLogger.info("Saving player data");
-        for(final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            PlayerData.findByOfflinePlayerAsync(onlinePlayer, (session, data) -> data.save(session));
+        for (final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+            try {
+                PlayerData.findByOfflinePlayerAsync(onlinePlayer).whenComplete((playerData, throwable) -> {
+                    playerData.save();
+                }).get();
+            } catch (InterruptedException | ExecutionException e) {
+                BaseLogger.error("Error saving player data: ", e);
+            }
         }
 
         BaseLogger.info("Shutting down thread pool");

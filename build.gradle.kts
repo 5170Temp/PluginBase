@@ -65,8 +65,6 @@ dependencies {
     compileOnly("me.clip:placeholderapi:2.11.6")
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
-    implementation("com.github.Mqzn:Lotus:1.6.0")
-
     compileOnly("dev.velix:imperat-core:1.9.7")
     compileOnly("dev.velix:imperat-bukkit:1.9.7")
 

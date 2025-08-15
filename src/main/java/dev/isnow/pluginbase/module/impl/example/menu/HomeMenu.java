@@ -1,6 +1,5 @@
 package dev.isnow.pluginbase.module.impl.example.menu;
 
-import dev.isnow.pluginbase.data.PlayerData;
 import dev.isnow.pluginbase.module.impl.example.ExampleModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
 import dev.isnow.pluginbase.module.impl.example.data.HomeData;
@@ -8,6 +7,7 @@ import dev.isnow.pluginbase.module.impl.example.teleport.TeleportManager;
 import dev.isnow.pluginbase.util.ComponentUtil;
 import dev.isnow.pluginbase.util.ExpiringSession;
 import dev.isnow.pluginbase.util.PermissionUtil;
+import dev.isnow.pluginbase.util.cuboid.BaseLocation;
 import io.github.mqzen.menus.base.Content;
 import io.github.mqzen.menus.base.Menu;
 import io.github.mqzen.menus.base.iterator.Direction;
@@ -30,14 +30,14 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @RequiredArgsConstructor
 public class HomeMenu implements Menu {
     private final ExampleModule module;
 
-    private final PlayerData playerData;
-    private final ExpiringSession session;
+    private final HomeData homeData;
 
     @Override
     public String getName() {
@@ -65,17 +65,17 @@ public class HomeMenu implements Menu {
 
         ArrayList<Button> buttons = new ArrayList<>();
 
-        for (final HomeData home : playerData.getHomeLocations().values()) {
+        for (final Map.Entry<String, BaseLocation> home : homeData.getHomes().entrySet()) {
             final ItemStack homeStack = LegacyItemBuilder.legacy(Material.LIME_BED, 1)
-                    .setDisplay("&a&l" + home.getName())
-                    .setLore("&fLokalizacja domu: " + ComponentUtil.formatLocation(home.getLocation(), true)).build();
+                    .setDisplay("&a&l" + home.getKey())
+                    .setLore("&fLokalizacja domu: " + ComponentUtil.formatLocation(home.getValue(), true)).build();
 
             buttons.add(Button.clickable(homeStack, ButtonClickAction.plain((menuView, inventoryClickEvent) -> {
                 final TeleportManager teleportManager = module.getTeleportManager();
                 final ExampleModuleConfig config = module.getConfig();
 
                 if(player.hasPermission("mcrekus.home.bypass")) {
-                    teleportPlayer(config, home, player);
+                    teleportPlayer(config, home.getValue(), home.getKey(), player);
                 } else {
                     inventoryClickEvent.setCancelled(true);
 
@@ -88,7 +88,7 @@ public class HomeMenu implements Menu {
                         @Override
                         public void run() {
                             teleportManager.removePlayerTeleporting(player.getUniqueId());
-                            teleportPlayer(config, home, player);
+                            teleportPlayer(config, home.getValue(), home.getKey(), player);
                         }
                     }.runTaskLater(module.getPlugin(), config.getHomeDelayTime() * 20L);
 
@@ -98,8 +98,6 @@ public class HomeMenu implements Menu {
                 player.closeInventory();
             })));
         }
-        session.closeSession();
-
 
         final int maxHomes = PermissionUtil.getMaxAllowedHomes(module.getConfig().getMaxAllowedHomesByDefault(), player);
 
@@ -132,9 +130,9 @@ public class HomeMenu implements Menu {
         }
     }
 
-    public static void teleportPlayer(final ExampleModuleConfig config, final HomeData home, final Player player) {
-        player.teleport(home.getLocation().toBukkitLocation());
+    public static void teleportPlayer(final ExampleModuleConfig config, final BaseLocation home, final String homeName, final Player player) {
+        player.teleport(home.toBukkitLocation());
         player.playSound(player.getLocation(), config.getHomeTeleportSound(), 1.0F, 1.0F);
-        player.sendMessage(ComponentUtil.deserialize(config.getHomeTeleportMessage(), null, "%home%", home.getName()));
+        player.sendMessage(ComponentUtil.deserialize(config.getHomeTeleportMessage(), null, "%home%", homeName));
     }
 }

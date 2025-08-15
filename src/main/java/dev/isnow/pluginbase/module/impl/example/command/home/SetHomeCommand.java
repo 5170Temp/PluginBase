@@ -1,6 +1,5 @@
 package dev.isnow.pluginbase.module.impl.example.command.home;
 
-import dev.isnow.pluginbase.data.PlayerData;
 import dev.isnow.pluginbase.module.ModuleCommand;
 import dev.isnow.pluginbase.module.impl.example.ExampleModule;
 import dev.isnow.pluginbase.module.impl.example.config.ExampleModuleConfig;
@@ -37,34 +36,30 @@ public class SetHomeCommand extends ModuleCommand<ExampleModule> {
 
         final Player player = source.asPlayer();
 
-        PlayerData.findByOfflinePlayerAsync(player, (session, data) -> {
-            if(data == null) {
-                source.reply(ComponentUtil.deserialize("&cWystąpił błąd podczas ładowania danych gracza. Spróbuj ponownie później."));
+        final HomeData homeData = HomeData.findByUuid(player.getUniqueId());
+        if(homeData == null) {
+            source.reply(ComponentUtil.deserialize("&cWystąpił błąd podczas ładowania danych gracza. Spróbuj ponownie później."));
+            return;
+        }
+
+        final BaseLocation home = homeData.getHomes().get(name);
+
+        if (home != null) {
+            homeData.addHome(name, new BaseLocation(player.getLocation()));
+
+            source.reply(ComponentUtil.deserialize(config.getSetHomeUpdatedMessage(), null, "%home%", name));
+            player.playSound(player.getLocation(), config.getSetHomeSound(), 1.0F, 1.0F);
+        } else {
+            final int maxHomes = PermissionUtil.getMaxAllowedHomes(module.getConfig().getMaxAllowedHomesByDefault(), player);
+            if (homeData.getHomes().size() >= maxHomes) {
+                source.reply(ComponentUtil.deserialize(config.getSetHomeAtLimitMessage(), null, "%max%", String.valueOf(maxHomes)));
                 return;
             }
 
-            final HomeData home = data.getHomeLocations().get(name);
+            homeData.addHome(name, new BaseLocation(player.getLocation()));
 
-            if (home != null) {
-                home.setLocation(new BaseLocation(player.getLocation()));
-
-                source.reply(ComponentUtil.deserialize(config.getSetHomeUpdatedMessage(), null, "%home%", name));
-                player.playSound(player.getLocation(), config.getSetHomeSound(), 1.0F, 1.0F);
-            } else {
-                final int maxHomes = PermissionUtil.getMaxAllowedHomes(module.getConfig().getMaxAllowedHomesByDefault(), player);
-                if (data.getHomeLocations().size() >= maxHomes) {
-                    source.reply(ComponentUtil.deserialize(config.getSetHomeAtLimitMessage(), null, "%max%", String.valueOf(maxHomes)));
-                    return;
-                }
-
-                final HomeData homeData = new HomeData(name, new BaseLocation(player.getLocation()), data);
-                data.getHomeLocations().put(name, homeData);
-
-                source.reply(ComponentUtil.deserialize(config.getSetHomeCreatedMessage(), null, "%home%", name));
-                player.playSound(player.getLocation(), config.getSetHomeSound(), 1.0F, 1.0F);
-            }
-
-            data.save(session);
-        });
+            source.reply(ComponentUtil.deserialize(config.getSetHomeCreatedMessage(), null, "%home%", name));
+            player.playSound(player.getLocation(), config.getSetHomeSound(), 1.0F, 1.0F);
+        }
     }
 }

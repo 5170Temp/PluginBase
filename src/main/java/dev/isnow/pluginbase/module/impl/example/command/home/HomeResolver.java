@@ -1,6 +1,6 @@
 package dev.isnow.pluginbase.module.impl.example.command.home;
 
-import dev.isnow.pluginbase.data.PlayerData;
+import dev.isnow.pluginbase.module.impl.example.data.HomeData;
 import dev.velix.imperat.BukkitSource;
 import dev.velix.imperat.command.parameters.CommandParameter;
 import dev.velix.imperat.context.SuggestionContext;
@@ -24,14 +24,15 @@ public class HomeResolver implements SuggestionResolver<BukkitSource> {
 
         CompletableFuture<List<String>> future = new CompletableFuture<>();
 
-        PlayerData.findByOfflinePlayerAsync(player, (session, data) -> {
+
+        HomeData.findByUuidAsync(player.getUniqueId()).whenCompleteAsync((data, throwable) -> {
             if(data == null) {
                 player.sendMessage("§cWystąpił błąd podczas ładowania danych gracza. Spróbuj ponownie później.");
                 future.complete(List.of());
                 return;
             }
 
-            future.complete(data.getHomeLocations().keySet().stream().toList());
+            future.complete(data.getHomes().keySet().stream().toList());
         });
 
         return future;

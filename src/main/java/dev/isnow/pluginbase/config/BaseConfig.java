@@ -1,27 +1,28 @@
 package dev.isnow.pluginbase.config;
 
+import de.exlll.configlib.ConfigLib;
 import de.exlll.configlib.YamlConfigurationProperties;
 import de.exlll.configlib.YamlConfigurations;
 import dev.isnow.pluginbase.util.Range;
 import dev.isnow.pluginbase.util.cuboid.BaseLocation;
 import dev.isnow.pluginbase.util.logger.BaseLogger;
-import dev.isnow.pluginbase.util.serializer.config.ComponentSerializer;
-import dev.isnow.pluginbase.util.serializer.config.RangeSerializer;
-import dev.isnow.pluginbase.util.serializer.config.BaseLocationSerializer;
-import dev.isnow.pluginbase.util.serializer.config.SoundSerializer;
+import dev.isnow.pluginbase.util.serializer.config.*;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Sound;
 
+import java.math.BigDecimal;
 import java.nio.file.Path;
 
 @Getter
 public abstract class BaseConfig {
-    private static final YamlConfigurationProperties PROPERTIES = YamlConfigurationProperties.newBuilder()
+    private static final YamlConfigurationProperties PROPERTIES = ConfigLib.BUKKIT_DEFAULT_PROPERTIES.toBuilder()
             .addSerializer(BaseLocation.class, new BaseLocationSerializer())
             .addSerializer(Component.class, new ComponentSerializer())
             .addSerializer(Range.class, new RangeSerializer())
             .addSerializer(Sound.class, new SoundSerializer())
+            //.addSerializer(BigDecimal.class, new BigDecimalSerializer())
+            //.addSerializer(ItemStack.class, new BetterItemStackSerializer())
             .build();
 
     private final String name;

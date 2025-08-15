@@ -69,6 +69,9 @@ public class ModuleManager {
             }
         }
         BaseLogger.info("Module loading finished. " + enabledModules.size() + " modules enabled.");
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            plugin.getDatabaseManager().preloadPlayer(player);
+        }
     }
 
     public void disableModules() {
@@ -79,6 +82,7 @@ public class ModuleManager {
             try {
                 BaseLogger.info("Disabling " + module.getClass().getSimpleName() + "...");
                 module.onDisable();
+                module.flushAllEntityCaches();
             } catch (final Exception e) {
                 BaseLogger.error("An error occurred while disabling module " + module.getClass().getSimpleName(), e);
             }

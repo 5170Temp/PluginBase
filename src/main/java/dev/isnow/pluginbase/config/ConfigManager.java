@@ -3,11 +3,9 @@ package dev.isnow.pluginbase.config;
 import dev.isnow.pluginbase.PluginBase;
 import dev.isnow.pluginbase.config.impl.GeneralConfig;
 import dev.isnow.pluginbase.config.impl.database.DatabaseConfig;
-import dev.isnow.pluginbase.util.logger.BaseLogger;
 import lombok.Getter;
 
 import java.io.File;
-import java.util.logging.Level;
 
 @Getter
 public class ConfigManager {

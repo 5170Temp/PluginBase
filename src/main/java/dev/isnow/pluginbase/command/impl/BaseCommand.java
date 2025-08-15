@@ -1,16 +1,19 @@
 package dev.isnow.pluginbase.command.impl;
 
 import dev.isnow.pluginbase.PluginBase;
-import dev.isnow.pluginbase.data.PlayerData;
+import dev.isnow.pluginbase.data.impl.PlayerData;
 import dev.isnow.pluginbase.database.DatabaseManager;
 import dev.isnow.pluginbase.module.Module;
 import dev.isnow.pluginbase.util.ComponentUtil;
 import dev.isnow.pluginbase.util.DateUtil;
+import dev.isnow.pluginbase.util.logger.BaseLogger;
 import dev.velix.imperat.BukkitSource;
 import dev.velix.imperat.annotations.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.hibernate.stat.Statistics;
+
+import java.util.concurrent.ExecutionException;
 
 // TODO: USE NEW IMPERAT STUFF
 @Command({"base", "basecmd"})
@@ -63,7 +66,9 @@ public class BaseCommand {
         if (action.equalsIgnoreCase("manualsave")) {
             source.reply(ComponentUtil.deserialize("&aSaving player data..."));
             for(final Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                PlayerData.findByOfflinePlayerAsync(onlinePlayer, (session, user) -> user.save(session));
+                PlayerData.findByOfflinePlayerAsync(onlinePlayer).whenComplete(((playerData, throwable) -> {
+                    playerData.save();
+                }));
             }
             source.reply(ComponentUtil.deserialize("&aSaved player data successfully!"));
             return;

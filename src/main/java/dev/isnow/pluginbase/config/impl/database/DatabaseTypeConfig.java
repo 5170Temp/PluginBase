@@ -11,6 +11,7 @@ import lombok.experimental.FieldDefaults;
 public enum DatabaseTypeConfig {
     MYSQL("jdbc:mysql://"),
     MARIADB("jdbc:mariadb://", "?useLegacyDatetimeCode=false"),
+    MONGODB(""),
     H2("jdbc:h2:file:");
 
     String prefix;

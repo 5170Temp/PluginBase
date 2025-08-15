@@ -1,6 +1,5 @@
 package dev.isnow.pluginbase.event;
 
-import dev.isnow.pluginbase.data.PlayerData;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,7 +12,7 @@ public class QuitEvent implements Listener {
     public void onQuit(final PlayerQuitEvent event) {
         final Player player = event.getPlayer();
 
-        PlayerData.findByOfflinePlayerAsync(player, (session, data) -> data.save(session));
+        //PlayerData.findByOfflinePlayerAsync(player, (session, data) -> data.save(session));
     }
 
 }
