@@ -25,8 +25,8 @@ public class ConfigManager {
             modulesPath.mkdir();
         }
 
-        generalConfig = (GeneralConfig) new GeneralConfig().load();
-        databaseConfig = (DatabaseConfig) new DatabaseConfig().load();
+        generalConfig = new GeneralConfig().load();
+        databaseConfig = new DatabaseConfig().load();
     }
 
     public void saveConfigs() {

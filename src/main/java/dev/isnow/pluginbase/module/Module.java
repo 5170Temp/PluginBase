@@ -40,7 +40,7 @@ public abstract class Module<T extends ModuleConfig> {
             }
 
             T configInstance = configClass.getDeclaredConstructor().newInstance();
-            this.config = (T) configInstance.load();
+            this.config = configInstance.load();
         } catch (final Exception e) {
             BaseLogger.error("Failed to automatically initialize config for module " + getClass().getSimpleName(), e);
         }
