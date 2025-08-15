@@ -5,6 +5,7 @@ import dev.isnow.pluginbase.util.cuboid.BaseLocation;
 import lombok.experimental.UtilityClass;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Location;
@@ -36,20 +37,20 @@ public class ComponentUtil {
             }).replaceText(replacementBuilder -> {
                 replacementBuilder.match(left).replacement("«");
             })).preProcessor(str -> {
-                final Matcher matcher = tinify_pattern.matcher(str);
+        final Matcher matcher = tinify_pattern.matcher(str);
 
-                final StringBuilder result = new StringBuilder();
+        final StringBuilder result = new StringBuilder();
 
-                while (matcher.find()) {
-                    final String innerText = matcher.group(1);
-                    final String tinifiedText = tinifyText(MiniMessage.miniMessage().stripTags(innerText));
+        while (matcher.find()) {
+            final String innerText = matcher.group(1);
+            final String tinifiedText = tinifyText(MiniMessage.miniMessage().stripTags(innerText));
 
-                    matcher.appendReplacement(result, Matcher.quoteReplacement(tinifiedText));
-                }
+            matcher.appendReplacement(result, Matcher.quoteReplacement(tinifiedText));
+        }
 
-                matcher.appendTail(result);
-                return result.toString();
-            }).build();
+        matcher.appendTail(result);
+        return result.toString();
+    }).build();
 
     public Component deserialize(final String input) {
         return deserialize(input, null);
@@ -60,23 +61,35 @@ public class ComponentUtil {
             input = PlaceholderAPI.setPlaceholders(player, input);
         }
 
+        if(PluginBase.getInstance().getConfigManager() != null) {
+            input = input.replaceAll("\\[P]", PluginBase.getInstance().getConfigManager().getGeneralConfig().getPrefix());
+        }
+
+        return MINI_MESSAGE.deserialize(placeholders != null ? formatPlaceholders(input, placeholders) : input).decoration(TextDecoration.ITALIC, false);
+    }
+
+    public Component deserialize(String input, final Player player, final Placeholders placeholders) {
+        if (player != null && PluginBase.getInstance().getHookManager().isPlaceholerAPIHook()) {
+            input = PlaceholderAPI.setPlaceholders(player, input);
+        }
+
         if(PluginBase.getInstance().getConfigManager().getGeneralConfig() != null) {
             input = input.replaceAll("\\[P]", PluginBase.getInstance().getConfigManager().getGeneralConfig().getPrefix());
         }
 
-        return MINI_MESSAGE.deserialize(placeholders != null ? formatPlaceholders(input, placeholders) : input);
+        return MINI_MESSAGE.deserialize(placeholders != null ? replacePlaceholders(input, placeholders.getPlaceholders()) : input).decoration(TextDecoration.ITALIC, false);
     }
 
     public Component deserialize(String input, final Player player) {
-        return deserialize(input, player, null);
+        return deserialize(input, player, (Object) null);
     }
 
     public String serialize(final Component input) {
-        return MINI_MESSAGE.serialize(input);
+        return MINI_MESSAGE.serialize(input.decoration(TextDecoration.ITALIC, false));
     }
 
     public String formatPlaceholders(final String input, final Object... placeholders) {
-        if (placeholders.length % 2 != 0) {
+        if (placeholders.length == 0 || placeholders.length % 2 != 0) {
             return input;
         }
 
@@ -89,6 +102,7 @@ public class ComponentUtil {
 
         return replacePlaceholders(input, placeholderMap);
     }
+
 
     private String replacePlaceholders(final String input, final Map<String, Object> placeholderMap) {
         final StringBuilder result = new StringBuilder(input);
